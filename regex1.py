@@ -14,16 +14,37 @@ def regphone(x):
 r = regphone(data)
 
 
-
 #first order item
 def getitems(x):
     soup = BeautifulSoup(x, 'html.parser')
-    result = soup.findAll("td",{"width":"70%"})
-    print(result[0].findChildren("p")[0].get_text())
+    tables = soup.findAll("table",{"role":"listitem"})
+    print(type(tables))
+    children = tables[0].find_all("td", {"width":"70%"})
+    percent_soup = BeautifulSoup(children, "html.parser")
+    result = {
+        row.td.get_text(strip=True): row("td")[1].get_text()
+        for row in percent_soup.find_all("tr")
+    }
+    #result = []
+
+    #for child in children:
+    #    for temp in str(child.text).split("\n"):
+    #        result.append(temp)
+    #print("".join(result))
+    print(len(result))
+
+#def order_details(x):
+
+
+
+
+     #   text = soup.findAll("")
+    #print(result.findChildren("p").get_text())
 
 getitems(data)
 
 
+'''
 order_df={"order":{
     "order_datetime":,
     "order_number": ,
@@ -40,6 +61,6 @@ order_df={"order":{
 "order_items":[{"name":,"quantity":,"price":},
 {"name":,"quantity":,"price":},
 {"name":,"quantity":,"price":}]}
-
+'''
 
 
