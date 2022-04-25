@@ -3,14 +3,15 @@ from bs4 import BeautifulSoup
 import glob
 import os
 import json
+import datetime
 
 files = glob.glob("/Users/abhishektiwari/Documents/GitHub/HeadOfData_Group7/deliveroo/*.html")
 
 #order datetime
 def order_datetime(x):
-  datetime = os.path.basename(x)
-  print(datetime.split("_.html")[0])
-  return datetime.split("_.html")[0]
+  datetime_str = os.path.basename(x)
+  date_str = datetime_str.split(".html")[0].replace("", " ")
+  return datetime.datetime.strptime(date_str, "%a %d %b %Y %H %M %S")
 
 #order number
 def order_no(x):
@@ -65,6 +66,19 @@ def order_total(x):
   return txt[i+1].replace('€','')
   #return re.sub(r'[^\w]', '.',txt[i+1])
 
+def order_dict(x):
+  dict={}
+
+  if(order_datetime(x)!=""):
+    dict["order"]=order_datetime(x)
+  if(order_no(x)!=""):
+    dict["order_number"]=order_no(x)
+  if(delivery_fee(x)!=""):
+    dict["delivery_fee"]=delivery_fee(x)
+  if(order_total(x)!=""):
+    dict["order_total_paid"]=order_total(x)
+
+  return dict
 
 #restaurant
 def rest_details(x):
@@ -78,7 +92,23 @@ def rest_details(x):
   for i in txt:
    rest_list.append(re.sub(r'[^\w]', ' ',i.get_text()).strip())
   file.close()
+
   return rest_list
+
+def rest_dict(x):
+  rest=rest_details(x)
+  dict={}
+  if(rest[0]!=""):
+    dict["name"]=rest[0]
+  if(rest[1]!=""):
+    dict["address"]=rest[1]
+  if(rest[2]!=""):
+    dict["city"]=rest[2]
+  if(rest[3]!=""):
+    dict["postcode"]=rest[3]
+  if(rest[4]!=""):
+    dict["phone_numnber"]=rest[4]
+  print(dict)
 
 def customer_details(x):
   file = open(f'{x}')
@@ -121,9 +151,11 @@ def order_items(x):
       dict["quantity"]=qty
       final_list.append(dict)
   file.close()
+
   return final_list
 
-
+rest_dict(files[7])
+'''
 file1=[]
 
 order_df = {"order": {}, "restaurant": {}, "customer": {}, "order_items": []}
@@ -133,6 +165,7 @@ order_df["restaurant"] = {"name":rest_details(files[0])[0],"address":rest_detail
 order_df["customer"] = {"name":customer_details(files[0])[0],"address":customer_details(files[0])[1],"city":customer_details(files[0])[2],
                  "postcode":customer_details(files[0])[3],"phone_number":customer_details(files[0])[4]}
 order_df["order_items"] = order_items(files[0])
+
 file1.append(order_df)
 #with open("data.json", "w") as outfile:
  # json.dump(order_df,outfile)
@@ -152,12 +185,7 @@ for x in files[1:]:
 
 with open("data.json",mode="w") as outfile:
   json.dump(file1,outfile)
-
-
-
-
-
-
+'''
 
 
 
