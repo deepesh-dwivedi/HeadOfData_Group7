@@ -10,7 +10,7 @@ files = glob.glob("/Users/abhishektiwari/Documents/GitHub/HeadOfData_Group7/deli
 #order datetime
 def order_datetime(x):
   datetime_str = os.path.basename(x)
-  date_str = datetime_str.split(".html")[0].replace("", " ")
+  date_str = datetime_str.split("_.html")[0].replace("_", " ")
   return datetime.datetime.strptime(date_str, "%a %d %b %Y %H %M %S")
 
 #order number
@@ -154,7 +154,7 @@ def order_items(x):
 
   return final_list
 
-rest_dict(files[7])
+print(order_datetime(files[7]))
 '''
 file1=[]
 
