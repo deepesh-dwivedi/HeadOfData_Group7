@@ -31,7 +31,7 @@ def order_no(x):
 def delivery_fee(x):
   file = open(f'{x}')
   data = file.read()
-  soup = BeautifulSoup(data, 'html.parser')
+  soup = BeautifulSoup(data, 'html.parser',from_encoding='utf-8')
   soup.prettify()
   subclasses = soup.find_all('td')
   txt=[]
@@ -50,7 +50,7 @@ def delivery_fee(x):
 def order_total(x):
   file = open(f'{x}')
   data = file.read()
-  soup = BeautifulSoup(data, 'html.parser')
+  soup = BeautifulSoup(data, 'html.parser',from_encoding='utf-8')
   soup.prettify()
   subclasses = soup.find_all('td')
   txt=[]
@@ -70,7 +70,7 @@ def order_total(x):
 def rest_details(x):
   file = open(f'{x}')
   data = file.read()
-  soup = BeautifulSoup(data, 'html.parser')
+  soup = BeautifulSoup(data, 'html.parser',from_encoding='utf-8')
   soup.prettify()
   subclasses = soup.find_all('table', {"class": "fluid", "align": "left"})
   txt = subclasses[0].find_all("p")
@@ -83,7 +83,7 @@ def rest_details(x):
 def customer_details(x):
   file = open(f'{x}')
   data = file.read()
-  soup = BeautifulSoup(data, 'html.parser')
+  soup = BeautifulSoup(data, 'html.parser',from_encoding='utf-8')
   soup.prettify()
   subclasses = soup.find_all('table', {"class": "fluid", "align": "left"})
   txt = subclasses[2].get_text().split('\n')
@@ -98,7 +98,7 @@ def customer_details(x):
 def order_items(x):
   file = open(f'{x}')
   data = file.read()
-  soup = BeautifulSoup(data, 'html.parser')
+  soup = BeautifulSoup(data, 'html.parser',from_encoding='utf-8')
   soup.prettify()
   table = soup.find('table',{"role":"listitem"})
   all_td = table.find_all('td', {"style": "padding:0 0 16px 0;"})
@@ -149,11 +149,6 @@ for x in files[1:]:
   order_df["order_items"] = order_items(x)
 
   file1.append(order_df)
-
-  #with open("data.json",mode='r+') as outfile:
-   # dic = json.load(outfile)
-    #dic.update(order_df)
-    #json.dump(dic,outfile)
 
 with open("data.json",mode="w") as outfile:
   json.dump(file1,outfile)
