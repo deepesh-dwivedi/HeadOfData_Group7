@@ -5,13 +5,13 @@ import os
 import json
 import datetime
 
-files = glob.glob("/Users/swarajbhargava/Documents/GitHub/HeadOfData_Group7/deliveroo/*.html")
+files = glob.glob("/Users/abhishektiwari/Documents/GitHub/HeadOfData_Group7/deliveroo/*.html")
 
 #order datetime
 def order_datetime(x):
   datetime_str = os.path.basename(x)
   date_str = datetime_str.split("_.html")[0].replace("_", " ")
-  return datetime.datetime.strptime(date_str, "%a %d %b %Y %H %M %S")
+  return str(datetime.datetime.strptime(date_str, "%a %d %b %Y %H %M %S"))
 
 #order number
 def order_no(x):
@@ -108,7 +108,7 @@ def rest_dict(x):
     dict["postcode"]=rest[3]
   if(rest[4]!=""):
     dict["phone_numnber"]=rest[4]
-  print(dict)
+  return dict
 
 def customer_details(x):
   file = open(f'{x}')
@@ -138,7 +138,7 @@ def cust_dict(x):
     dict["postcode"]=cust[3]
   if(cust[4]!=""):
     dict["phone_numnber"]=cust[4]
-  print(dict)
+  return dict
 
 def order_items(x):
   file = open(f'{x}')
@@ -169,17 +169,9 @@ def order_items(x):
 
   return final_list
 
-print(cust_dict(files[7]))
-'''
 file1=[]
 
-order_df = {"order": {}, "restaurant": {}, "customer": {}, "order_items": []}
-order_df["order"]={"order":order_datetime(files[0]),"order_number":order_no(files[0]),"delivery_fee":delivery_fee(files[0]),"order_total_paid":order_total(files[0])}
-order_df["restaurant"] = {"name":rest_details(files[0])[0],"address":rest_details(files[0])[1],"city":rest_details(files[0])[2],"postcode":rest_details(files[0])[3],
-                   "phone_number":rest_details(files[0])[4]}
-order_df["customer"] = {"name":customer_details(files[0])[0],"address":customer_details(files[0])[1],"city":customer_details(files[0])[2],
-                 "postcode":customer_details(files[0])[3],"phone_number":customer_details(files[0])[4]}
-order_df["order_items"] = order_items(files[0])
+order_df = {"order": order_dict(files[0]), "restaurant": rest_dict(files[0]), "customer": cust_dict(files[0]), "order_items": order_items(files[0])}
 
 file1.append(order_df)
 #with open("data.json", "w") as outfile:
@@ -188,19 +180,12 @@ file1.append(order_df)
 for x in files[1:]:
   #if order_datetime(x)=="Sun_22_Nov_2020_19_07_23_" or order_datetime(x)=="Fri_26_Mar_2021_19_56_07_":
    # continue
-  order_df = {"order": {}, "restaurant": {}, "customer": {}, "order_items": []}
-  order_df["order"]={"order":order_datetime(x),"order_number":order_no(x),"delivery_fee":delivery_fee(x),"order_total_paid":order_total(x)}
-  order_df["restaurant"] = {"name":rest_details(x)[0],"address":rest_details(x)[1],"city":rest_details(x)[2],"postcode":rest_details(x)[3],
-                     "phone_number":rest_details(x)[4]}
-  order_df["customer"] = {"name":customer_details(x)[0],"address":customer_details(x)[1],"city":customer_details(x)[2],
-                   "postcode":customer_details(x)[3],"phone_number":customer_details(x)[4]}
-  order_df["order_items"] = order_items(x)
-
+  order_df = {"order": order_dict(x), "restaurant": rest_dict(x), "customer": cust_dict(x), "order_items": order_items(x)}
   file1.append(order_df)
 
 with open("data.json",mode="w") as outfile:
-  json.dump(file1,outfile, ensure_ascii=false)
-'''
+  json.dump(file1,outfile, ensure_ascii=False)
+
 
 
 
