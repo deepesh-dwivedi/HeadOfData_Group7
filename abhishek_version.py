@@ -5,7 +5,7 @@ import os
 import json
 import datetime
 
-files = glob.glob("/Users/abhishektiwari/Documents/GitHub/HeadOfData_Group7/deliveroo/*.html")
+files = glob.glob("/Users/swarajbhargava/Documents/GitHub/HeadOfData_Group7/deliveroo/*.html")
 
 #order datetime
 def order_datetime(x):
@@ -125,6 +125,21 @@ def customer_details(x):
   file.close()
   return fin
 
+def cust_dict(x):
+  cust=customer_details(x)
+  dict={}
+  if(cust[0]!=""):
+    dict["name"]=cust[0]
+  if(cust[1]!=""):
+    dict["address"]=cust[1]
+  if(cust[2]!=""):
+    dict["city"]=cust[2]
+  if(cust[3]!=""):
+    dict["postcode"]=cust[3]
+  if(cust[4]!=""):
+    dict["phone_numnber"]=cust[4]
+  print(dict)
+
 def order_items(x):
   file = open(f'{x}')
   data = file.read()
@@ -154,7 +169,7 @@ def order_items(x):
 
   return final_list
 
-print(order_datetime(files[7]))
+print(cust_dict(files[7]))
 '''
 file1=[]
 
@@ -184,7 +199,7 @@ for x in files[1:]:
   file1.append(order_df)
 
 with open("data.json",mode="w") as outfile:
-  json.dump(file1,outfile)
+  json.dump(file1,outfile, ensure_ascii=false)
 '''
 
 
