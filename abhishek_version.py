@@ -5,7 +5,7 @@ import os
 import json
 import datetime
 
-files = glob.glob("/Users/abhishektiwari/Documents/GitHub/HeadOfData_Group7/deliveroo/*.html")
+files = glob.glob("deliveroo/*.html")
 
 #order datetime
 def order_datetime(x):
